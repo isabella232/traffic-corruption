@@ -138,9 +138,9 @@ var renderChart = function(config) {
 	 */
 	var margins = {
 		top: 10,
-		right: 10,
+		right: 20,
 		bottom: 50,
-		left: 50
+		left: 30
 	};
 
     var aspectRatio = 16/9;
@@ -202,9 +202,7 @@ var renderChart = function(config) {
 	var yAxis = d3.svg.axis()
 		.scale(yScale)
 		.orient('left')
-		.tickFormat(function(d, i) {
-			return d;
-		});
+        .tickValues([0, 10, 20, 30, 40])
 
 	/*
 	 * Render axes to chart.
