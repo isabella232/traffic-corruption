@@ -1,0 +1,96 @@
+$low = $qz-purp-4
+$lower-middle = $qz-purp-1
+$upper-middle = $qz-blue-1
+$high = $qz-blue-4
+
+#interactive-content h3
+    font-family: $qz-sans
+    font-size: 20px
+    font-weight: 400
+    margin-bottom: 10px
+
+#chart
+    padding-bottom: 20px
+
+ul#legend
+  margin-left: 0
+  padding: 0
+  padding 0 0 10px 0
+  list-style-type: none
+
+  li
+    display: inline-block
+    margin: 0 18px 0 0
+    padding: 0
+    line-height: 20px
+
+    b
+      display: inline-block
+      width: 12px
+      height: 12px
+      margin-top: 4px
+      margin-right: 6px
+      float: left
+
+    div
+      whitespace: nowrap
+      fill: $qz-gray-2
+      font-size: 20px
+      font-family: $qz-sans-light
+      float: left;
+
+    &.low-income
+        b
+            background-color: $low
+        div
+            color: $low
+
+    &.lower-middle-income
+        b
+            background-color: $lower-middle
+        div
+            color: $lower-middle
+
+    &.upper-middle-income
+        b
+            background-color: $upper-middle
+        div
+            color: $upper-middle
+
+    &.high-income
+        b
+            background-color: $high
+        div
+            color: $high
+
+.dots circle
+    stroke-width: 1px
+    stroke: $qz-background-gray
+
+    &.low-income
+        fill: $low
+
+    &.lower-middle-income
+        fill: $lower-middle
+
+    &.upper-middle-income
+        fill: $upper-middle
+
+    &.high-income
+        fill: $high
+
+.zero-line
+    stroke: $qz-gray-3
+    stroke-width: 2px
+    fill: none
+
+.left, .right
+    font-family: $qz-sans-light
+    stroke: $qz-gray-3
+    fill: $qz-gray-3
+    opacity: 0.8
+
+.footnotes
+    font-size: 0.8em
+    font-family: $qz-sans
+    color: $qz-gray-2
