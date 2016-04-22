@@ -339,22 +339,30 @@ var renderChart = function(config) {
             return d['country'];
         });
 
-    // chartElementa.append('rect')
-    //
-    // chartElement.append('text')
-    //     .attr('id', 'annotation')
-    //     .attr('x', function(d) {
-    //         return xScale(0);
-    //     })
-    //     .attr('y', function(d) {
-    //         return yScale(40)
-    //     })
-    //     .attr('text-anchor', 'start')
-    //     .style('alignment-baseline', 'middle')
-    //     // .style('font-size', function(d) {
-    //     //     return ((d['font-size'] || LABEL_DEFAULTS['font-size']) * scaleFactor * 100).toString() + '%';
-    //     // })
-    //     .html('fatalities per 100,000 population');
+    var annotation = chartElement.append('text')
+        .attr('id', 'annotation')
+        .attr('x', function(d) {
+            return xScale(0) - 5;
+        })
+        .attr('y', function(d) {
+            return yScale(40) + 1
+        })
+        .attr('text-anchor', 'start')
+        .style('alignment-baseline', 'middle')
+        .style('font-size', '16px')
+        .html('deaths per 100,000 people');
+
+    var bbox = annotation.node().getBBox();
+    console.log(bbox);
+
+    chartElement.append('rect')
+        .attr('id', 'annotation-background')
+        .attr('x', bbox.x)
+        .attr('y', bbox.y)
+        .attr('width', bbox.width + 5)
+        .attr('height', bbox.height + 5)
+
+    annotation.moveToFront();
 }
 
 /*
@@ -394,6 +402,12 @@ var makeTranslate = function(x, y) {
 
 	return transform.toString();
 }
+
+d3.selection.prototype.moveToFront = function() {
+  return this.each(function(){
+    this.parentNode.appendChild(this);
+  });
+};
 
 var throttleRender = throttle(resize, 250);
 
