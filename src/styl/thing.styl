@@ -12,6 +12,10 @@ $high = $qz-blue-4
 #chart
     padding-bottom: 20px
 
+#annotation
+    font-family: $qz-sans-light
+    fill: $qz-gray-2
+
 ul#legend
   margin-left: 0
   padding: 0
@@ -90,7 +94,28 @@ ul#legend
     fill: $qz-gray-3
     opacity: 0.8
 
+.arrows path
+    stroke-width: 1.5px
+    stroke: $qz-body-black
+    fill: none
+
+.labels text
+    fill: $qz-body-black
+    font-family: $qz-sans
+    -webkit-font-smoothing: antialiased
+    font-size: 14px
+
 .footnotes
     font-size: 0.8em
     font-family: $qz-sans
     color: $qz-gray-2
+
+.clear
+    clear:both
+
+/*
+ * Media queries
+ */
+@media screen and (max-width: 600px)
+  .arrows path
+    stroke-width: 1px

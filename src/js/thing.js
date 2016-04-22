@@ -9,6 +9,61 @@ var MOBILE_THRESHOLD = 600;
 
 var chartData = null;
 
+var LABEL_DEFAULTS = {
+    'text-anchor': 'middle',
+    'font-size': 0.8,
+    'rotate': 0
+};
+
+var LABELS = [
+    {
+        'country': 'Thailand',
+        'rule_of_law': 0.655,
+        'fatalities': 38,
+        'text-anchor': 'start'
+    },
+    {
+        'country': 'Afghanistan',
+        'rule_of_law': 0.245,
+        'fatalities': 19.0,
+        'text-anchor': 'end'
+    },
+    {
+        'country': 'Romania',
+        'rule_of_law': 0.755,
+        'fatalities': 25.0,
+        'text-anchor': 'start'
+    }
+];
+
+var ARROWS = [
+    // Thailand
+    {
+        'path': [
+            [0.65, 38.0],
+            [0.58, 38.0],
+            [0.535, 36.6]
+        ]
+    },
+    // Afghanistan
+    {
+        'path': [
+            [0.25, 19.0],
+            [0.33, 18.5],
+            [0.345, 16.2]
+        ]
+    },
+    // Romania
+    {
+        'path': [
+            [0.75, 25.0],
+            [0.67, 23],
+            [0.623, 9.6]
+        ]
+    }
+];
+
+
 function init () {
     d3.csv('./data/countries.csv', function(err, data) {
         chartData = data;
@@ -224,7 +279,84 @@ var renderChart = function(config) {
             })
             .attr('class', function(d, i) {
                 return 'dot ' + classify(d['income_group']);
+            })
+            .attr('id', function(d) {
+                return classify(d['country']);
             });
+
+    /*
+     * Render labels and arrows.
+     */
+    chartElement.append('defs')
+         .append('marker')
+         .attr('id','arrowhead')
+         .attr('orient','auto')
+         .attr('viewBox','0 0 5.108 8.18')
+         .attr('markerHeight','8.18')
+         .attr('markerWidth','5.108')
+         .attr('orient','auto')
+         .attr('refY','4.09')
+         .attr('refX','5')
+         .append('polygon')
+         .attr('points','0.745,8.05 0.07,7.312 3.71,3.986 0.127,0.599 0.815,-0.129 5.179,3.999')
+         .attr('fill','#4C4C4C')
+
+    var arrowLine = d3.svg.line()
+        .interpolate('basis')
+        .x(function(d) {
+            return xScale(d[0]);
+        })
+        .y(function(d) {
+            return yScale(d[1]);
+        });
+
+    var arrows = chartElement.append('g')
+        .attr('class', 'arrows');
+
+    arrows.selectAll('path')
+        .data(ARROWS)
+        .enter().append('path')
+        .attr('d', function(d) { return arrowLine(d['path']); })
+        .style('marker-end', 'url(#arrowhead)');
+
+    var labels = chartElement.append('g')
+      .attr('class', 'labels');
+
+    labels.selectAll('text')
+        .data(LABELS)
+        .enter().append('text')
+        .attr('x', function(d) {
+            return xScale(d['rule_of_law']);
+        })
+        .attr('y', function(d) {
+            return yScale(d['fatalities'])
+        })
+        .attr('text-anchor', function(d) {
+            return d['text-anchor'] || LABEL_DEFAULTS['text-anchor'];
+        })
+        .style('alignment-baseline', function(d) {
+            return 'middle';
+        })
+        .html(function(d) {
+            return d['country'];
+        });
+
+    // chartElementa.append('rect')
+    //
+    // chartElement.append('text')
+    //     .attr('id', 'annotation')
+    //     .attr('x', function(d) {
+    //         return xScale(0);
+    //     })
+    //     .attr('y', function(d) {
+    //         return yScale(40)
+    //     })
+    //     .attr('text-anchor', 'start')
+    //     .style('alignment-baseline', 'middle')
+    //     // .style('font-size', function(d) {
+    //     //     return ((d['font-size'] || LABEL_DEFAULTS['font-size']) * scaleFactor * 100).toString() + '%';
+    //     // })
+    //     .html('fatalities per 100,000 population');
 }
 
 /*
